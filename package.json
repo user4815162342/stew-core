@@ -1,13 +1,13 @@
 {
   "name": "stew-core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Stew API for Stew Tools",
   "main": "index.js",
   "dependencies": {
-		"ncp": "~0.6",
-		"mkdirp": "~0.5",
-		"SFMS": "user4815162342/SFMS"
-	},
+    "ncp": "~0.6",
+    "mkdirp": "~0.5",
+    "SFMS": "user4815162342/SFMS"
+  },
   "scripts": {
     "test": "echo \"Tests not implemented yet\" && exit 1"
   },
