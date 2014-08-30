@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Stew API for Stew Tools",
   "main": "index.js",
+  "repository": "https://github.com/user4815162342/stew-core",
   "dependencies": {
     "SFMS": "user4815162342/SFMS",
     "minimatch": "~1.0",
