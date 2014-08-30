@@ -4,9 +4,10 @@
   "description": "Stew API for Stew Tools",
   "main": "index.js",
   "dependencies": {
-    "ncp": "~0.6",
+    "SFMS": "user4815162342/SFMS",
+    "minimatch": "~1.0",
     "mkdirp": "~0.5",
-    "SFMS": "user4815162342/SFMS"
+    "ncp": "~0.6"
   },
   "scripts": {
     "test": "echo \"Tests not implemented yet\" && exit 1"
