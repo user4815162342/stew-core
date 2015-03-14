@@ -1,7 +1,8 @@
-var fs = require('fs');
+var fs = require('q-io/fs');
 var path = require('path');
 var StewError = require("./lib/errors").StewError;
 var StewProject = require("./lib/StewProject");
+var Q = require("q");
 
 /*
  * Here is where the basic functionality is for manipulating a stew
@@ -25,23 +26,23 @@ var StewProject = require("./lib/StewProject");
  * it's rootpath value as it does. If it never finds one, then it will
  * throw an error.
  * */
- var open = module.exports.open = function(p,dontSearch,cb) {
+ var open = module.exports.open = function(p,dontSearch) {
      // NOTE: I expect to be given a full root. But that's somewhat
      // useless to check, so it's up to the user to ensure that.
      
      // now just look for _stew.json here, and if not found, keep
      // going up. until we find one.
-     fs.exists(path.join(p,"_stew.json"),function(exists) {
+     return fs.exists(path.join(p,"_stew.json")).then(function(exists) {
          if (!exists) {
              var dir = path.dirname(p);
              if ((dir === p) || (dontSearch)) {
                  // we've gone as far as we can.
-                 return cb(new StewError("_stew.json file not found","STEW NOT FOUND"))
+                 throw new StewError("_stew.json file not found","STEW NOT FOUND")
              } else {
-                 return open(dir,false,cb);
+                 return open(dir,false);
              }
          } else {
-             return cb(null, new StewProject(p));
+             return new StewProject(p);
          }
      });
  }
@@ -53,26 +54,22 @@ var StewProject = require("./lib/StewProject");
  * Attempts to create a new stew project (by placing a _stew.json file)
  * out of the directory specified by path.
  * */
- var init = module.exports.init = function(p,cb) {
+ var init = module.exports.init = function(p) {
      // NOTE: I expect to be given a full root. But that's somewhat
      // useless to check, so it's up to the user to ensure that.
      
      // first, attempt to open one up. I'm not creating one where
      // I've already got a stew.
-     open(p,false,function(err,value) {
+     return open(p,false).then(function(project) {
+         throw new StewError("This path is already in a stew project.","STEW ALREADY EXISTS");
+     },function(err) {
          if (err && (err.code === "STEW NOT FOUND")) {
              // we can safely create one, right here.
-             fs.writeFile(path.join(p,"_stew.json"),"{}",{encoding: 'utf8'},function(err) {
-                 if (err) {
-                     return cb(err) 
-                 } else {
-                     return cb(null, new StewProject(p));
-                 }
-             });
-         } else if (err) {
-             cb(err);
+             return fs.write(path.join(p,"_stew.json"),"{}",{encoding: 'utf8'}).then(function() {
+                 return new StewProject(p);
+             })
          } else {
-             cb(new StewError("This path is already in a stew project.","STEW ALREADY EXISTS"));
+             throw err;
          }
      });
  }
