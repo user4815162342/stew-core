@@ -1,6 +1,6 @@
 {
   "name": "stew-core",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Stew API for Stew Tools",
   "main": "index.js",
   "repository": "https://github.com/user4815162342/stew-core",
