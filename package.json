@@ -6,7 +6,7 @@
   "repository": "https://github.com/user4815162342/stew-core",
   "dependencies": {
     "SFMS": "user4815162342/SFMS",
-    "minimatch": "~1.0",
+    "minimatch": "~2.0",
     "mkdirp": "~0.5",
     "ncp": "~0.6",
     "q": "^1.1.2",
